@@ -1,0 +1,19 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: node-demo
+spec:
+  selector:
+    matchLabels:
+      app: node-demo
+  replicas: 2 
+  template:
+    metadata:
+      labels:
+        app: node-demo
+    spec:
+      containers:
+      - name: nodejs
+        image: gcr.io/my-project/mansoor-node-test:0.1
+        ports:
+        - containerPort: 8080

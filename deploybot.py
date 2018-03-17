@@ -35,12 +35,12 @@ APP_INFO = {
                 'node-app': {
                             'git_url': 'git@github.com:MansoorMajeed/slack-deploybot.git',
                             'app_path': 'demo_app',
-                            'image_tag': 'gcr.io/ls-development/mansoor-node-test',
+                            'image_tag': 'gcr.io/my-gcp-project/mansoor-node-test',
                             'k8s_deployment_name': 'node-demo',
                             'k8s_container_name': 'nodejs',
-                            'k8s_cluster_name': 'mansoor-test',
+                            'k8s_cluster_name': 'my-test-cluster',
                             'gcp_zone': 'asia-south1-a',
-                            'project': 'ls-development',
+                            'project': 'my-gcp-project',
                 },
         }
 

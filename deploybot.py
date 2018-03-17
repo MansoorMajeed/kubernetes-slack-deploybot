@@ -102,6 +102,8 @@ def shell_exec(cmd, output=False):
 
 
 def build_docker_image(path, tag):
+    ''' Build the docker image from the cloned repo's Dockerfile '''
+
     LOGGER.info("Building the docker image : `%s`" % tag)
     send_message("Building the docker image : `%s`" % tag)
 
@@ -117,6 +119,7 @@ def build_docker_image(path, tag):
 
 def push_to_gcr(tag):
     ''' Push the docker image to GCR '''
+
     cmd = "gcloud docker -- push %s" % tag
     LOGGER.info("Pushing the image to GCR")
     send_message("Pushing the docker image to the registry")
@@ -129,7 +132,7 @@ def push_to_gcr(tag):
         return
 
 def get_cluster_creds(app_name):
-    ''' Get GKE cluster credentials so that we can rollout '''
+    ''' Get GKE cluster credentials so that we can rollout k8s deployments'''
 
     cluster_name = APP_INFO[app_name]['k8s_cluster_name']
     zone = APP_INFO[app_name]['asia-south1-a']
@@ -148,6 +151,7 @@ def get_cluster_creds(app_name):
 
 def rollout_k8s(app_name, tag):
     ''' Rollout the image to k8s '''
+
     deployment_name = APP_INFO[app_name]['k8s_deployment_name']
     container_name = APP_INFO[app_name]['k8s_container_name']
     cmd = "kubectl set image deployment/%s %s=%s" % (deployment_name, container_name, tag)
@@ -162,9 +166,9 @@ def rollout_k8s(app_name, tag):
     return
 
 
-
-
 def send_message(text):
+    ''' Send a message to the Slack channel '''
+
     try:
         slack.rtm_send_message(channel=SLACK_CHANNEL, message=text)
     except Exception, e:
@@ -172,9 +176,13 @@ def send_message(text):
 
 
 def action_help():
+    ''' Print the help message '''
+
     send_message(HELP_TEXT)
 
 def action_deploy(action, event):
+    ''' Do the deployment '''
+
     LOGGER.info("Deployment is requested")
     parts = action.split()
     if len(parts) != 4:
